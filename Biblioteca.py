@@ -172,6 +172,6 @@ def gerenciamento_biblioteca():
             print("Programa Finalizado")
             break
         else:
-            print("Opção inválida.")
+            print("Opção inválida!")
 
 gerenciamento_biblioteca()
