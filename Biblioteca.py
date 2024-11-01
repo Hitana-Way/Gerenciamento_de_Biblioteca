@@ -52,16 +52,18 @@ qtd= [
     5,
     3,
 ]
+
+
 def registrar_livro():
-    livro = input("Digite o nome do livro que deseja registrar: ").strip().title()
+    livro = input("Digite o nome do livro que deseja registrar: ").strip().title()  # Nome do Livro
     if livro not in biblioteca:
         while True:
             try:
-                adicionar = int(input("Quantas unidades desse livro você quer adicionar? "))
-                if adicionar > 0:
+                quantidade_para_adicionar = int(input("Quantas unidades desse livro você quer adicionar? "))
+                if quantidade_para_adicionar > 0:
                     biblioteca.append(livro)
-                    qtd.append(adicionar)
-                    print("O livro '" + livro + "' foi registrado com sucesso! Quantidade de unidades: " + str(adicionar) + ".")
+                    qtd.append(quantidade_para_adicionar)
+                    print("O livro '" + livro + "' foi registrado com sucesso! Quantidade de unidades: " + str(quantidade_para_adicionar) + ".")
                     break
                 else:
                     print("Quantidade inválida, digite um número maior que zero!")
@@ -71,10 +73,10 @@ def registrar_livro():
         print("O livro já está registrado na biblioteca.")
         while True:
             try:
-                adicionar = int(input("Quantas unidades adicionais desse livro você quer adicionar? "))
-                if adicionar > 0:
+                quantidade_adicional = int(input("Quantas unidades adicionais desse livro você quer adicionar? "))
+                if quantidade_adicional > 0:
                     posicao_do_livro = biblioteca.index(livro)
-                    qtd[posicao_do_livro] += adicionar
+                    qtd[posicao_do_livro] += quantidade_adicional
                     print("A quantidade do livro " + livro + " foi alterada para " + str(qtd[posicao_do_livro]) + "!")
                     break
                 else:
@@ -107,34 +109,32 @@ def devolver_livro():
 
 def consultar_livros():
     if len(biblioteca) > 0:
-        print("A biblioteca possui um total de " + str(len(biblioteca)) + " livros:")
+        print("A biblioteca possui um total de " + str(len(biblioteca)) + " livros diferentes:")
         for i in range(len(biblioteca)):
             print("\nTítulo: " + biblioteca[i] + ", quantidade: " + str(qtd[i]))
     else:
         print("A biblioteca está vazia.")
 
-def alt_estoque():
-    livro_alt = input("Digite o nome do livro que deseja alterar a quantidade: ").strip().title()
-    if livro_alt in biblioteca:
+def alterar_estoque():
+    livro_para_alterar = input("Digite o nome do livro que deseja alterar a quantidade: ").strip().title()
+    if livro_para_alterar in biblioteca:
         while True:
             try:
-                num_alt = int(input("Digite a nova quantidade para o livro " + livro_alt + ": "))
-                if num_alt >= 0:
-                    posicao_do_livro = biblioteca.index(livro_alt)
-                    qtd[posicao_do_livro] = num_alt
-                    print("A quantidade do livro " + livro_alt + " foi alterada para " + str(num_alt) + ".")
+                nova_quantidade = int(input("Digite a nova quantidade para o livro " + livro_para_alterar + ": "))
+                if nova_quantidade >= 0:
+                    posicao_do_livro = biblioteca.index(livro_para_alterar)
+                    qtd[posicao_do_livro] = nova_quantidade
+                    print("A quantidade do livro " + livro_para_alterar + " foi alterada para " + str(nova_quantidade) + ".")
 
-                    if num_alt == 0:
+                    if nova_quantidade == 0:
                         biblioteca.pop(posicao_do_livro)
                         qtd.pop(posicao_do_livro)
-                        print("O livro " + livro_alt + " foi removido da biblioteca.")
+                        print("O livro " + livro_para_alterar + " foi removido da biblioteca.")
                     break
                 else:
-                    print("Quantidade inválida. Por favor, digite um número maior ou igual a zero")
+                    print("Quantidade inválida. Por favor, digite um número maior ou igual a zero.")
             except ValueError:
                 print("Quantidade inválida. Por favor, digite um número!")
-    else:
-        print("O livro " + livro_alt + " não foi encontrado na biblioteca.")
 
 def buscar_por_palavra_chave():
     livros_encontrados = []
@@ -149,12 +149,11 @@ def buscar_por_palavra_chave():
         for resultado in livros_encontrados:
             print(resultado)
     else:
-      print("Nenhum livro encontrado com a palavra-chave: " + palavra_chave)
-
+        print("Nenhum livro encontrado com a palavra-chave: " + palavra_chave)
 
 def gerenciamento_biblioteca():
     while True:
-        print("\nDigite a opção desejada: \n 1. Registrar livros \n 2. Emprestar livros \n 3. Devolver livros \n 4. Consultar livros disponíveis \n 5. Alterar Estoque \n 6. Busca por palavra chave \n 0. Sair do sistema")
+        print("\nDigite a opção desejada: \n 1. Registrar livros \n 2. Emprestar livros \n 3. Devolver livros \n 4. Consultar livros disponíveis \n 5. Alterar Estoque \n 6. Busca por palavra-chave \n 0. Sair do sistema")
         opcao = input()
 
         if opcao == "1":
@@ -166,7 +165,7 @@ def gerenciamento_biblioteca():
         elif opcao == "4":
             consultar_livros()
         elif opcao == "5":
-            alt_estoque()
+            alterar_estoque()
         elif opcao == "6":
             buscar_por_palavra_chave()
         elif opcao == "0":
