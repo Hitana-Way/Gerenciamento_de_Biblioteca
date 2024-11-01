@@ -1,73 +1,178 @@
-biblioteca = ['O Pequeno Príncipe', 'Romeu E Julieta', 'Quarto de Despejo', 'Veronika Decide Morrer', 'O Corvo']
-
-def registrar_livro(livro):
+biblioteca = [
+  "O Primo Basílio",
+  "O Casamento Da Minha Filha",
+  "A Máquina De Fazer Espanhóis",
+  "6",
+  "O Tempo E O Vento",
+  "A Revolução Dos Bichos",
+  "Brida",
+  "Casamento De Papel",
+  "A Paixão Segundo G.H.",
+  "Felicidade Roubada",
+  "O Primeiro Dia",
+  "Os Maias",
+  "A Dama Das Camélias",
+  "O Exército De Um Homem Só",
+  "As Meninas",
+  "O Peste",
+  "Feliz Ano Novo",
+  "O Nome Da Rosa",
+  "O Amor Nos Tempos Do Cólera",
+  "Os Irmãos Karamázov",
+  "O Ensaio Sobre A Cegueira",
+  "Os Sinos Da Noite",
+  "A Mulher Que Escreveu A Bíblia",
+  "O Casamento",
+  "Casamento Em Risco",
+  ]
+qtd= [
+    2,
+    5,
+    4,
+    3,
+    10,
+    25,
+    50,
+    1,
+    10,
+    3,
+    5,
+    2,
+    5,
+    1,
+    5,
+    6,
+    8,
+    9,
+    41,
+    5,
+    2,
+    23,
+    1,
+    5,
+    3,
+]
+def registrar_livro():
+    livro = input("Digite o nome do livro que deseja registrar: ").strip().title()
     if livro not in biblioteca:
-        biblioteca.append(livro)
-        print("O livro: " + livro + " foi registrado com sucesso!")
+        while True:
+            try:
+                adicionar = int(input("Quantas unidades desse livro você quer adicionar? "))
+                if adicionar > 0:
+                    biblioteca.append(livro)
+                    qtd.append(adicionar)
+                    print("O livro '" + livro + "' foi registrado com sucesso! Quantidade de unidades: " + str(adicionar) + ".")
+                    break
+                else:
+                    print("Quantidade inválida, digite um número maior que zero!")
+            except ValueError:
+                print("Quantidade que você digitou está incorreta. Por favor, digite um número!")
     else:
         print("O livro já está registrado na biblioteca.")
+        while True:
+            try:
+                adicionar = int(input("Quantas unidades adicionais desse livro você quer adicionar? "))
+                if adicionar > 0:
+                    posicao_do_livro = biblioteca.index(livro)
+                    qtd[posicao_do_livro] += adicionar
+                    print("A quantidade do livro " + livro + " foi alterada para " + str(qtd[posicao_do_livro]) + "!")
+                    break
+                else:
+                    print("Quantidade inválida, digite um número maior que zero!")
+            except ValueError:
+                print("Quantidade que você digitou está incorreta. Por favor, digite um número!")
 
-def emprestar_livro(livro):
+def emprestar_livro():
+    livro = input("Digite o nome do livro que deseja pegar emprestado: ").strip().title()
     if livro in biblioteca:
-        biblioteca.remove(livro)
-        print("O livro: " + livro + " foi emprestado.")
+        posicao_do_livro = biblioteca.index(livro)
+        if qtd[posicao_do_livro] > 0:
+            qtd[posicao_do_livro] -= 1
+            print("O livro " + livro + " foi emprestado com sucesso! Quantidade restante: " + str(qtd[posicao_do_livro]))
+        else:
+            print("O livro " + livro + " não está disponível!")
     else:
-        print("O livro: " + livro + " não está disponível na nossa biblioteca!")
+        print("Não encontramos o livro " + livro + " na biblioteca!")
 
-def devolver_livro(livro):
+def devolver_livro():
+    livro = input("Digite o nome do livro que deseja devolver: ").strip().title()
     if livro not in biblioteca:
         biblioteca.append(livro)
-        print("O livro: " + livro + " foi devolvido!")
+        qtd.append(1)
+        print("Este livro foi guardado na biblioteca com 1 unidade!")
     else:
-        print("O livro já está na biblioteca.")
+        posicao_do_livro = biblioteca.index(livro)
+        qtd[posicao_do_livro] += 1
+        print("O livro '" + livro + "' foi devolvido com sucesso! Quantidade atual: " + str(qtd[posicao_do_livro]))
 
 def consultar_livros():
     if len(biblioteca) > 0:
-        print("Livros disponíveis na biblioteca: ")
-        for livro in biblioteca:
-            print(livro)
+        print("A biblioteca possui um total de " + str(len(biblioteca)) + " livros:")
+        for i in range(len(biblioteca)):
+            print("\nTítulo: " + biblioteca[i] + ", quantidade: " + str(qtd[i]))
     else:
         print("A biblioteca está vazia.")
 
-def trocar_livro(livro_para_troca, livro_trocado):
-    if livro_para_troca in biblioteca:
-        biblioteca.remove(livro_para_troca)
-        biblioteca.append(livro_trocado)
-        print("O livro " + livro_para_troca + " foi trocado por " + livro_trocado + ".")
+def alt_estoque():
+    livro_alt = input("Digite o nome do livro que deseja alterar a quantidade: ").strip().title()
+    if livro_alt in biblioteca:
+        while True:
+            try:
+                num_alt = int(input("Digite a nova quantidade para o livro " + livro_alt + ": "))
+                if num_alt >= 0:
+                    posicao_do_livro = biblioteca.index(livro_alt)
+                    qtd[posicao_do_livro] = num_alt
+                    print("A quantidade do livro " + livro_alt + " foi alterada para " + str(num_alt) + ".")
+
+                    if num_alt == 0:
+                        biblioteca.pop(posicao_do_livro)
+                        qtd.pop(posicao_do_livro)
+                        print("O livro " + livro_alt + " foi removido da biblioteca.")
+                    break
+                else:
+                    print("Quantidade inválida. Por favor, digite um número maior ou igual a zero")
+            except ValueError:
+                print("Quantidade inválida. Por favor, digite um número!")
     else:
-        print("Livro " + livro_para_troca + " não encontrado na biblioteca para troca!")
+        print("O livro " + livro_alt + " não foi encontrado na biblioteca.")
 
-def GerenciamentoBiblioteca():
-    continuar = True
+def buscar_por_palavra_chave():
+    livros_encontrados = []
+    palavra_chave = input("Digite a palavra-chave que deseja buscar: ").strip().title()
 
-    while continuar:
-        print("\nDigite a opção desejada: \n1. Registrar livros \n2. Emprestar livros \n3. Devolver livros \n4. Consultar livros disponíveis \n5. Trocar livros \n0. Sair do sistema")
+    palavra_chave = palavra_chave.lower()
+    for livro in biblioteca:
+        if palavra_chave in livro.lower():
+            livros_encontrados.append(livro)
+    if len(livros_encontrados) > 0:
+        print("Livros encontrados:")
+        for resultado in livros_encontrados:
+            print(resultado)
+    else:
+      print("Nenhum livro encontrado com a palavra-chave: " + palavra_chave)
+
+
+def gerenciamento_biblioteca():
+    while True:
+        print("\nDigite a opção desejada: \n 1. Registrar livros \n 2. Emprestar livros \n 3. Devolver livros \n 4. Consultar livros disponíveis \n 5. Alterar Estoque \n 6. Busca por palavra chave \n 0. Sair do sistema")
         opcao = input()
 
         if opcao == "1":
-            livro_registrado = input("Digite o nome do livro que deseja registrar: ")
-            registrar_livro(livro_registrado)
-
+            registrar_livro()
         elif opcao == "2":
-            livro_emprestado = input("Digite o nome do livro que deseja pegar emprestado: ")
-            emprestar_livro(livro_emprestado)
-
+            emprestar_livro()
         elif opcao == "3":
-            livro_devolver = input("Digite o nome do livro que deseja devolver: ")
-            devolver_livro(livro_devolver)
-
+            devolver_livro()
         elif opcao == "4":
             consultar_livros()
-        
         elif opcao == "5":
-            livro_para_troca = input("Digite o nome do livro que você desejar receber: ")
-            livro_trocado = input("Digite o nome do livro que você deseja ofertar em troca: ")
-            trocar_livro(livro_para_troca, livro_trocado)
-
+            alt_estoque()
+        elif opcao == "6":
+            buscar_por_palavra_chave()
         elif opcao == "0":
             print("Programa Finalizado")
-            continuar = False
+            break
         else:
             print("Opção inválida.")
 
-GerenciamentoBiblioteca()
+gerenciamento_biblioteca()
