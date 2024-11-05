@@ -4,7 +4,7 @@ O administrador de uma biblioteca quer modernizar o sistema de gerenciamento de
 livros. Ele precisa de um sistema que permita registrar livros, emprestá-los a
 usuários, devolver livros e consultar o acervo.
 
-Funcionalidades Principais:
+Funcionalidades Principais: 
 
 1. Registrar Livros
 2. Emprestar Livros
